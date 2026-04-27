@@ -1,0 +1,22 @@
+# SimpleCMS — Apache Security Rules
+
+# Deny access to includes directory
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^includes/ - [F,L]
+</IfModule>
+
+# Deny access to SQL files
+<FilesMatch "\.(sql|md)$">
+    Require all denied
+</FilesMatch>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Disable directory listing
+Options -Indexes
