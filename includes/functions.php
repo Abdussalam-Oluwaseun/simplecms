@@ -218,3 +218,39 @@ function getStats($conn) {
 
     return $stats;
 }
+
+// ── Tag Helper ─────────────────────────────────────────────
+/**
+ * Create or retrieve a tag by name. Returns tag ID.
+ */
+function getOrCreateTag($conn, $name) {
+    $name = trim($name);
+    if (empty($name)) return null;
+
+    $slug = createSlug($name);
+    
+    // Check if tag exists by slug
+    $stmt = mysqli_prepare($conn, "SELECT id FROM tags WHERE slug = ? LIMIT 1");
+    mysqli_stmt_bind_param($stmt, 's', $slug);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $tag = mysqli_fetch_assoc($result);
+    mysqli_stmt_close($stmt);
+
+    if ($tag) {
+        return $tag['id'];
+    }
+
+    // Create new tag
+    $stmt = mysqli_prepare($conn, "INSERT INTO tags (name, slug) VALUES (?, ?)");
+    mysqli_stmt_bind_param($stmt, 'ss', $name, $slug);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        $tagId = mysqli_insert_id($conn);
+        mysqli_stmt_close($stmt);
+        return $tagId;
+    }
+    
+    mysqli_stmt_close($stmt);
+    return null;
+}

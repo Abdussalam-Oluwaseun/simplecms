@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $catId   = intval($_POST['category_id'] ?? 0) ?: null;
     $status  = in_array($_POST['status'] ?? '', ['draft','published']) ? $_POST['status'] : 'draft';
     $tagIds  = $_POST['tags'] ?? [];
+    $customTags = trim($_POST['custom_tags'] ?? '');
 
     if (empty($title)) $errors[] = 'Title is required.';
     if (empty($content)) $errors[] = 'Content is required.';
@@ -37,7 +38,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (mysqli_stmt_execute($stmt)) {
             $postId = mysqli_insert_id($conn);
-            // Insert tags
+            
+            // Process custom tags (comma-separated)
+            if (!empty($customTags)) {
+                $customTagArray = array_map('trim', explode(',', $customTags));
+                foreach ($customTagArray as $tagName) {
+                    if (!empty($tagName)) {
+                        $newTagId = getOrCreateTag($conn, $tagName);
+                        if ($newTagId) {
+                            $tagIds[] = $newTagId;
+                        }
+                    }
+                }
+            }
+            
+            // Insert all tags
             foreach ($tagIds as $tagId) {
                 $tagId = intval($tagId);
                 $ts = mysqli_prepare($conn, "INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)");
@@ -109,8 +124,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <div class="form-group">
-        <label>Tags</label>
-        <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <label for="tags">Tags</label>
+        <p class="help-text" style="margin-bottom:12px">Select existing tags or enter new ones below.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px">
         <?php mysqli_data_seek($allTags, 0); while ($tag = mysqli_fetch_assoc($allTags)): ?>
             <label class="form-check">
                 <input type="checkbox" name="tags[]" value="<?= $tag['id'] ?>" <?= in_array($tag['id'], $_POST['tags'] ?? []) ? 'checked' : '' ?>>
@@ -118,6 +134,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </label>
         <?php endwhile; ?>
         </div>
+        <label for="custom_tags">Add New Tags</label>
+        <input type="text" id="custom_tags" name="custom_tags" value="<?= sanitize($_POST['custom_tags'] ?? '') ?>" placeholder="Enter comma-separated tags (e.g., PHP, MySQL, Web Design)">
+        <p class="help-text">New tags will be created automatically if they don't exist.</p>
     </div>
 
     <div class="form-group">
