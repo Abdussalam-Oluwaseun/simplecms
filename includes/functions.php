@@ -113,7 +113,13 @@ function uploadImage($file, $subdir = 'posts') {
 
     $dir = UPLOAD_PATH . $subdir . '/';
     if (!is_dir($dir)) {
-        mkdir($dir, 0755, true);
+        if (!mkdir($dir, 0775, true) && !is_dir($dir)) {
+            return ['success' => false, 'error' => 'Failed to create upload directory: ' . $dir];
+        }
+    }
+
+    if (!is_writable($dir)) {
+        return ['success' => false, 'error' => 'Upload directory is not writable: ' . $dir];
     }
 
     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);

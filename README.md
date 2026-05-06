@@ -37,8 +37,9 @@ A modern content management system built with PHP 8.x and MySQL/MariaDB.
 
 4. **Set upload permissions:**
    ```bash
-   chmod -R 755 public/uploads/
+   chmod -R 775 public/uploads/
    ```
+   If Apache still cannot write to the folder, make sure the directory is owned by the XAMPP web server user on your machine.
 
 5. **Access the site:**
    - Public site: http://localhost/simplecms/
