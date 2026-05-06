@@ -22,7 +22,7 @@ $items = mysqli_query($conn, "SELECT * FROM portfolio_items ORDER BY created_at 
             <td><strong><?= sanitize($item['title']) ?></strong></td>
             <td><span class="badge badge-lemon"><?= sanitize($item['category'] ?? '—') ?></span></td>
             <td style="max-width:200px"><?= sanitize(truncateText($item['technologies_used'] ?? '', 50)) ?></td>
-            <td><?= $item['featured'] ? '⭐ Yes' : '—' ?></td>
+            <td><?= $item['featured'] ? '✅' : '➖' ?></td>
             <td><?= formatDate($item['created_at']) ?></td>
             <td class="actions">
                 <a href="<?= ADMIN_URL ?>/portfolio/edit.php?id=<?= $item['id'] ?>" class="edit-btn">Edit</a>
