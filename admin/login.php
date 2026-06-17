@@ -18,9 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
+        $ipAddress = $_SERVER['REMOTE_ADDR'] ?? '';
 
         if (empty($username) || empty($password)) {
             $error = 'Please enter both username and password.';
+        } elseif (checkLoginLockout($conn, $username, $ipAddress)) {
+            $error = 'Too many failed login attempts. Please try again in 15 minutes.';
         } else {
             $stmt = mysqli_prepare($conn, "SELECT id, username, password FROM users WHERE username = ?");
             mysqli_stmt_bind_param($stmt, 's', $username);
@@ -31,11 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($user && password_verify($password, $user['password'])) {
                 session_regenerate_id(true);
+                regenerateCSRFToken();
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 setFlash('success', 'Welcome back, ' . $user['username'] . '!');
                 redirect(ADMIN_URL . '/index.php');
             } else {
+                logFailedLogin($conn, $username, $ipAddress);
                 $error = 'Invalid username or password.';
             }
         }
@@ -82,6 +87,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 
         <p style="text-align:center;margin-top:24px;font-size:.85rem;color:var(--text-light)">
+            Don't have an account? <a href="<?= ADMIN_URL ?>/register.php">Register Here</a>
+        </p>
+        <p style="text-align:center;margin-top:12px;font-size:.85rem;color:var(--text-light)">
             <a href="<?= SITE_URL ?>/">← Back to site</a>
         </p>
     </div>

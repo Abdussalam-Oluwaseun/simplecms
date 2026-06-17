@@ -15,8 +15,12 @@ if (!$post) { setFlash('error', 'Post not found.'); redirect(ADMIN_URL . '/posts
 
 // Fetch current tags for this post
 $currentTags = [];
-$tagResult = mysqli_query($conn, "SELECT tag_id FROM post_tags WHERE post_id = $id");
+$tagStmt = mysqli_prepare($conn, "SELECT tag_id FROM post_tags WHERE post_id = ?");
+mysqli_stmt_bind_param($tagStmt, 'i', $id);
+mysqli_stmt_execute($tagStmt);
+$tagResult = mysqli_stmt_get_result($tagStmt);
 while ($r = mysqli_fetch_assoc($tagResult)) { $currentTags[] = $r['tag_id']; }
+mysqli_stmt_close($tagStmt);
 
 $categories = mysqli_query($conn, "SELECT * FROM categories ORDER BY name");
 $allTags = mysqli_query($conn, "SELECT * FROM tags ORDER BY name");
@@ -72,14 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             
             // Sync tags
-            mysqli_query($conn, "DELETE FROM post_tags WHERE post_id = $id");
-            foreach ($tagIds as $tagId) {
-                $tagId = intval($tagId);
-                $ts = mysqli_prepare($conn, "INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)");
-                mysqli_stmt_bind_param($ts, 'ii', $id, $tagId);
-                mysqli_stmt_execute($ts);
-                mysqli_stmt_close($ts);
-            }
+            syncPostTags($conn, $id, $tagIds);
+            
             setFlash('success', 'Post updated successfully!');
             redirect(ADMIN_URL . '/posts/');
         } else {

@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($title)) $errors[] = 'Title is required.';
     if (empty($content)) $errors[] = 'Content is required.';
 
-    $slug = createSlug($title);
+    $slug = trim($_POST['slug'] ?? '') ?: createSlug($title);
     $slug = uniqueSlug($conn, 'blog_posts', $slug);
 
     // Featured image
@@ -52,14 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             
-            // Insert all tags
-            foreach ($tagIds as $tagId) {
-                $tagId = intval($tagId);
-                $ts = mysqli_prepare($conn, "INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)");
-                mysqli_stmt_bind_param($ts, 'ii', $postId, $tagId);
-                mysqli_stmt_execute($ts);
-                mysqli_stmt_close($ts);
-            }
+            // Sync all tags
+            syncPostTags($conn, $postId, $tagIds);
+            
             setFlash('success', 'Post created successfully!');
             redirect(ADMIN_URL . '/posts/');
         } else {

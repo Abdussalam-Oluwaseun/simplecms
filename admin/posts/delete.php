@@ -17,7 +17,11 @@ mysqli_stmt_close($stmt);
 if ($post) {
     deleteImage($post['featured_image']);
     // Delete tag associations (handled by CASCADE, but explicit for safety)
-    mysqli_query($conn, "DELETE FROM post_tags WHERE post_id = $id");
+    $tsStmt = mysqli_prepare($conn, "DELETE FROM post_tags WHERE post_id = ?");
+    mysqli_stmt_bind_param($tsStmt, 'i', $id);
+    mysqli_stmt_execute($tsStmt);
+    mysqli_stmt_close($tsStmt);
+
     $stmt = mysqli_prepare($conn, "DELETE FROM blog_posts WHERE id = ?");
     mysqli_stmt_bind_param($stmt, 'i', $id);
     mysqli_stmt_execute($stmt);

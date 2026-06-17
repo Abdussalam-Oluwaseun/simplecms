@@ -93,6 +93,16 @@ CREATE TABLE IF NOT EXISTS `post_tags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
+-- LOGIN ATTEMPTS TABLE
+-- ============================================================
+CREATE TABLE IF NOT EXISTS `login_attempts` (
+    `ip_address` VARCHAR(45) NOT NULL,
+    `username` VARCHAR(50) NOT NULL,
+    `attempted_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX `idx_ip_user_time` (`ip_address`, `username`, `attempted_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================
 -- SEED DATA
 -- ============================================================
 

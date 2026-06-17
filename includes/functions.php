@@ -97,7 +97,16 @@ function uploadImage($file, $subdir = 'posts') {
         return ['success' => false, 'error' => 'Upload error code: ' . $file['error']];
     }
 
-    if (!in_array($file['type'], $allowed)) {
+    // Use finfo to verify the actual file MIME type
+    if (class_exists('finfo')) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+    } else {
+        $mimeType = $file['type'];
+    }
+
+    if (!in_array($mimeType, $allowed)) {
         return ['success' => false, 'error' => 'Invalid file type. Allowed: JPG, PNG, GIF, WEBP.'];
     }
 
@@ -260,3 +269,49 @@ function getOrCreateTag($conn, $name) {
     mysqli_stmt_close($stmt);
     return null;
 }
+
+// ── Additional Security & Helper Functions ──────────────────
+function regenerateCSRFToken() {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    return $_SESSION['csrf_token'];
+}
+
+function syncPostTags($conn, $postId, $tagIds) {
+    // Delete existing associations using a prepared statement to prevent injection
+    $stmt = mysqli_prepare($conn, "DELETE FROM post_tags WHERE post_id = ?");
+    mysqli_stmt_bind_param($stmt, 'i', $postId);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    // Insert new associations
+    if (!empty($tagIds)) {
+        foreach ($tagIds as $tagId) {
+            $tagId = intval($tagId);
+            if ($tagId > 0) {
+                $ts = mysqli_prepare($conn, "INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)");
+                mysqli_stmt_bind_param($ts, 'ii', $postId, $tagId);
+                mysqli_stmt_execute($ts);
+                mysqli_stmt_close($ts);
+            }
+        }
+    }
+}
+
+function checkLoginLockout($conn, $username, $ip) {
+    // Count failed attempts in the last 15 minutes
+    $stmt = mysqli_prepare($conn, "SELECT COUNT(*) FROM login_attempts WHERE (ip_address = ? OR username = ?) AND attempted_at > NOW() - INTERVAL 15 MINUTE");
+    mysqli_stmt_bind_param($stmt, 'ss', $ip, $username);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $count);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+    return $count >= 5;
+}
+
+function logFailedLogin($conn, $username, $ip) {
+    $stmt = mysqli_prepare($conn, "INSERT INTO login_attempts (ip_address, username) VALUES (?, ?)");
+    mysqli_stmt_bind_param($stmt, 'ss', $ip, $username);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
