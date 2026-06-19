@@ -30,8 +30,8 @@
                 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <linearGradient id="nlg" x1="0" y1="0" x2="36" y2="36">
-                            <stop offset="0%" stop-color="#7C3AED"/>
-                            <stop offset="100%" stop-color="#A855F7"/>
+                            <stop offset="0%" stop-color="#cb6441"/>
+                            <stop offset="100%" stop-color="#e07d5b"/>
                         </linearGradient>
                     </defs>
                     <rect width="36" height="36" rx="10" fill="url(#nlg)"/>

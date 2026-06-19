@@ -4,26 +4,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* ── Brand Violet ── */
-  --v-primary:          #7C3AED;
-  --v-primary-hover:    #6D28D9;
-  --v-primary-light:    #EDE9FE;
-  --v-primary-lighter:  #F5F3FF;
-  --v-gradient:         linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);
+  /* ── Brand Terracotta ── */
+  --v-primary:          #cb6441;
+  --v-primary-hover:    #b35332;
+  --v-primary-light:    #fdf3ef;
+  --v-primary-lighter:  #fef9f7;
+  --v-gradient:         linear-gradient(135deg, #cb6441 0%, #e07d5b 100%);
 
-  /* ── Backgrounds ── */
-  --v-bg:               #F5F3FF;
+  /* ── Secondary & Backgrounds ── */
+  --v-secondary:        #e7e4dd;
+  --v-secondary-fg:     #525044;
+  --v-bg:               #f4f3f0;
   --v-surface:          #FFFFFF;
-  --v-surface-2:        #FAFAFA;
+  --v-surface-2:        #e7e4dd;
 
   /* ── Borders ── */
-  --v-border:           #E5E1F8;
-  --v-border-light:     #F0EDF9;
+  --v-border:           #dcdad3;
+  --v-border-light:     #edebe5;
 
   /* ── Text ── */
-  --v-text:             #1E1B4B;
-  --v-text-muted:       #6B7280;
-  --v-text-light:       #9CA3AF;
+  --v-text:             #2b2a24;
+  --v-text-muted:       #525044;
+  --v-text-light:       #8a887d;
 
   /* ── Semantic Colors ── */
   --v-success:          #059669;
@@ -31,18 +33,18 @@
   --v-success-border:   #A7F3D0;
   --v-warning:          #D97706;
   --v-warning-bg:       #FEF3C7;
-  --v-danger:           #DC2626;
-  --v-danger-bg:        #FEE2E2;
-  --v-danger-border:    #FCA5A5;
+  --v-danger:           #141414;
+  --v-danger-bg:        rgba(20, 20, 20, 0.08);
+  --v-danger-border:    rgba(20, 20, 20, 0.15);
   --v-info:             #0284C7;
   --v-info-bg:          #E0F2FE;
 
   /* ── Shadows ── */
-  --v-shadow-sm:   0 1px 3px rgba(124,58,237,.06), 0 1px 2px rgba(0,0,0,.04);
-  --v-shadow:      0 4px 16px rgba(124,58,237,.09), 0 2px 6px rgba(0,0,0,.04);
-  --v-shadow-md:   0 8px 24px rgba(124,58,237,.12), 0 4px 8px rgba(0,0,0,.04);
-  --v-shadow-lg:   0 16px 48px rgba(124,58,237,.16), 0 6px 12px rgba(0,0,0,.05);
-  --v-glow:        0 0 0 3px rgba(124,58,237,.18);
+  --v-shadow-sm:   0 1px 3px rgba(203,100,65,.06), 0 1px 2px rgba(0,0,0,.04);
+  --v-shadow:      0 4px 16px rgba(203,100,65,.09), 0 2px 6px rgba(0,0,0,.04);
+  --v-shadow-md:   0 8px 24px rgba(203,100,65,.12), 0 4px 8px rgba(0,0,0,.04);
+  --v-shadow-lg:   0 16px 48px rgba(203,100,65,.16), 0 6px 12px rgba(0,0,0,.05);
+  --v-glow:        0 0 0 3px rgba(203,100,65,.18);
 
   /* ── Shape ── */
   --v-radius-xs:   6px;
@@ -130,7 +132,7 @@ img { max-width: 100%; display: block; }
   width: 36px;
   height: 36px;
   flex-shrink: 0;
-  filter: drop-shadow(0 2px 8px rgba(124,58,237,.3));
+  filter: drop-shadow(0 2px 8px rgba(203,100,65,.3));
 }
 .brand-logo svg { width: 100%; height: 100%; }
 .brand-name {
@@ -773,12 +775,12 @@ img { max-width: 100%; display: block; }
 .btn-primary {
   background: var(--v-gradient);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(124,58,237,.32);
+  box-shadow: 0 4px 14px rgba(203,100,65,.32);
 }
 .btn-primary:hover {
-  background: linear-gradient(135deg, #6D28D9 0%, #9333EA 100%);
+  background: linear-gradient(135deg, #b35332 0%, #cb6441 100%);
   color: #fff;
-  box-shadow: 0 6px 20px rgba(124,58,237,.42);
+  box-shadow: 0 6px 20px rgba(203,100,65,.42);
   transform: translateY(-1px);
 }
 .btn-primary:active { transform: translateY(0); }
@@ -816,7 +818,7 @@ img { max-width: 100%; display: block; }
 
 .login-brand-panel {
   flex: 1;
-  background: linear-gradient(145deg, #5B21B6 0%, #7C3AED 40%, #A855F7 100%);
+  background: linear-gradient(145deg, #b35332 0%, #cb6441 40%, #e07d5b 100%);
   display: flex;
   flex-direction: column;
   align-items: center;

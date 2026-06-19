@@ -4,7 +4,7 @@
 -- Create database
 CREATE DATABASE IF NOT EXISTS `simple_cms` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Create dedicated user
+-- Create dedicated user (WARNING: Change username and password in production environments!)
 CREATE USER IF NOT EXISTS 'simplecms'@'localhost' IDENTIFIED BY 'simplecms_pass';
 GRANT ALL PRIVILEGES ON `simple_cms`.* TO 'simplecms'@'localhost';
 FLUSH PRIVILEGES;

@@ -285,14 +285,17 @@ function syncPostTags($conn, $postId, $tagIds) {
 
     // Insert new associations
     if (!empty($tagIds)) {
-        foreach ($tagIds as $tagId) {
-            $tagId = intval($tagId);
-            if ($tagId > 0) {
-                $ts = mysqli_prepare($conn, "INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)");
-                mysqli_stmt_bind_param($ts, 'ii', $postId, $tagId);
-                mysqli_stmt_execute($ts);
-                mysqli_stmt_close($ts);
+        $ts = mysqli_prepare($conn, "INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)");
+        if ($ts) {
+            $tagId = 0;
+            mysqli_stmt_bind_param($ts, 'ii', $postId, $tagId);
+            foreach ($tagIds as $tagIdVal) {
+                $tagId = intval($tagIdVal);
+                if ($tagId > 0) {
+                    mysqli_stmt_execute($ts);
+                }
             }
+            mysqli_stmt_close($ts);
         }
     }
 }
