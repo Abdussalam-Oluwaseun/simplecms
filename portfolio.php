@@ -43,13 +43,15 @@ require_once __DIR__ . '/includes/header.php';
             $thumb = !empty($images) ? UPLOAD_URL . $images[0] : '';
         ?>
             <article class="card portfolio-card portfolio-item" data-category="<?= sanitize($item['category'] ?? '') ?>">
-                <?php if ($thumb): ?>
-                    <img src="<?= $thumb ?>" alt="<?= sanitize($item['title']) ?>" class="card-img">
-                <?php else: ?>
-                    <div class="card-img" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--lemon-light),var(--gray-100));font-size:3rem">💼</div>
-                <?php endif; ?>
-                <div class="portfolio-overlay">
-                    <a href="<?= SITE_URL ?>/project.php?slug=<?= urlencode($item['slug']) ?>" class="btn btn-primary">View Details</a>
+                <div class="card-img-wrapper">
+                    <?php if ($thumb): ?>
+                        <img src="<?= $thumb ?>" alt="<?= sanitize($item['title']) ?>" class="card-img">
+                    <?php else: ?>
+                        <div class="card-img" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--lemon-light),var(--gray-100));font-size:3rem">💼</div>
+                    <?php endif; ?>
+                    <div class="portfolio-overlay">
+                        <a href="<?= SITE_URL ?>/project.php?slug=<?= urlencode($item['slug']) ?>" class="btn btn-primary btn-sm">View Details</a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <h3><a href="<?= SITE_URL ?>/project.php?slug=<?= urlencode($item['slug']) ?>"><?= sanitize($item['title']) ?></a></h3>

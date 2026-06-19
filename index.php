@@ -6,7 +6,7 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
 $pageTitle = 'Home';
-$pageDesc = 'Welcome to SimpleCMS — a modern blog and portfolio platform.';
+$pageDesc = 'Welcome to Velora — a modern blog and portfolio platform for creators.';
 
 // Recent published posts (3)
 $recentPosts = mysqli_query($conn, "SELECT bp.*, c.name as category_name FROM blog_posts bp LEFT JOIN categories c ON bp.category_id = c.id WHERE bp.status='published' ORDER BY bp.created_at DESC LIMIT 3");
@@ -84,13 +84,15 @@ require_once __DIR__ . '/includes/header.php';
             $thumb = !empty($images) ? UPLOAD_URL . $images[0] : '';
         ?>
             <article class="card portfolio-card">
-                <?php if ($thumb): ?>
-                    <img src="<?= $thumb ?>" alt="<?= sanitize($item['title']) ?>" class="card-img">
-                <?php else: ?>
-                    <div class="card-img" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--lemon-light),var(--gray-100));font-size:3rem">💼</div>
-                <?php endif; ?>
-                <div class="portfolio-overlay">
-                    <a href="<?= SITE_URL ?>/project.php?slug=<?= urlencode($item['slug']) ?>" class="btn btn-primary">View Project</a>
+                <div class="card-img-wrapper">
+                    <?php if ($thumb): ?>
+                        <img src="<?= $thumb ?>" alt="<?= sanitize($item['title']) ?>" class="card-img">
+                    <?php else: ?>
+                        <div class="card-img" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--lemon-light),var(--gray-100));font-size:3rem">💼</div>
+                    <?php endif; ?>
+                    <div class="portfolio-overlay">
+                        <a href="<?= SITE_URL ?>/project.php?slug=<?= urlencode($item['slug']) ?>" class="btn btn-primary btn-sm">View Project</a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <h3><a href="<?= SITE_URL ?>/project.php?slug=<?= urlencode($item['slug']) ?>"><?= sanitize($item['title']) ?></a></h3>

@@ -1,6 +1,6 @@
 <?php
 /**
- * SimpleCMS — Configuration
+ * Velora — Configuration
  * Database connection, constants, session setup
  */
 
@@ -18,7 +18,7 @@ if ($appEnv === 'production') {
 date_default_timezone_set('Europe/London');
 
 // ── Site Constants ──────────────────────────────────────────
-define('SITE_NAME', 'SimpleCMS');
+define('SITE_NAME', 'Velora');
 
 // Optional override for environments where URL auto-detection is not desired.
 $siteUrlOverride = getenv('SITE_URL');

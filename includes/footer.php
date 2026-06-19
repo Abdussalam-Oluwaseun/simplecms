@@ -2,8 +2,16 @@
     <div class="container">
         <div class="footer-grid">
             <div class="footer-col">
-                <h4>Simple<span style="color:var(--lemon)">CMS</span></h4>
-                <p style="margin-top:10px;font-size:.9rem;line-height:1.6">A modern content management system for blogs and portfolios. Built with PHP, MySQL, and a passion for clean code.</p>
+                <div class="footer-brand">
+                    <div class="footer-brand-logo">
+                        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.15)"/>
+                            <path d="M9 10.5L13.8 23L18 16.8L22.2 23L27 10.5H23.4L18 20.2L12.6 10.5H9Z" fill="white"/>
+                        </svg>
+                    </div>
+                    <span class="footer-brand-name">Velora</span>
+                </div>
+                <p>A modern content management platform for blogs and portfolios. Built for creators who care about design.</p>
             </div>
             <div class="footer-col">
                 <h4>Quick Links</h4>
@@ -18,7 +26,7 @@
                 <h4>Admin</h4>
                 <ul>
                     <li><a href="<?= SITE_URL ?>/admin/">Dashboard</a></li>
-                    <li><a href="<?= SITE_URL ?>/admin/login.php">Login</a></li>
+                    <li><a href="<?= SITE_URL ?>/admin/login.php">Sign In</a></li>
                 </ul>
             </div>
         </div>
