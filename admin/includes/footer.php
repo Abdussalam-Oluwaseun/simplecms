@@ -10,7 +10,7 @@ if (typeof tinymce !== 'undefined' && document.querySelector('.rich-editor')) {
         content_css: 'default',
         plugins: 'lists link image code table',
         toolbar: 'undo redo | blocks | bold italic underline | bullist numlist | link image table | code',
-        content_style: "body { font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; color: #1E1B4B; line-height: 1.7; }",
+        content_style: "@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap'); body { font-family: 'Montserrat', -apple-system, sans-serif; font-size: 15px; color: #1E1B4B; line-height: 1.7; }",
         body_class: 'velora-editor-body',
         setup: function(editor) {
             editor.on('init', function() {

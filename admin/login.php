@@ -128,10 +128,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <svg id="eyeIcon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         </button>
                     </div>
-                    <label for="showPassword" class="checkbox-label">
+                    <!-- <label for="showPassword" class="checkbox-label">
                         <input type="checkbox" id="showPassword" class="show-password-checkbox">
                         Show password
-                    </label>
+                    </label> -->
                 </div>
                 <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
                     Sign In
@@ -151,16 +151,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const passwordInput  = document.getElementById('password');
-    const showCheckbox   = document.getElementById('showPassword');
+    // const showCheckbox   = document.getElementById('showPassword');
     const toggleBtn      = document.getElementById('togglePassword');
+    let showState = false;
 
     function syncType() {
-        passwordInput.type = showCheckbox.checked ? 'text' : 'password';
+        passwordInput.type = showState ? 'text' : 'password';
     }
-    showCheckbox.addEventListener('change', syncType);
     toggleBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        showCheckbox.checked = !showCheckbox.checked;
+        showState = !showState;
         syncType();
     });
 

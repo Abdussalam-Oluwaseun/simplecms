@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
    Velora — Public Site Styles  |  Light + Violet Accent Theme
    ═══════════════════════════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
   /* ── Brand ── */
@@ -58,8 +58,8 @@
   --v-transition:  0.22s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* ── Typography ── */
-  --v-font-display: 'Outfit', -apple-system, sans-serif;
-  --v-font:         'Inter', -apple-system, sans-serif;
+  --v-font-display: 'Montserrat', -apple-system, sans-serif;
+  --v-font:         'Montserrat', -apple-system, sans-serif;
 
   /* Legacy token aliases */
   --gold:         var(--v-primary);
